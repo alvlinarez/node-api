@@ -1,0 +1,33 @@
+{
+  "name": "node-api",
+  "version": "1.0.0",
+  "description": "Node API boilerplate with passport",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./index.js",
+    "start": "node ./index.js"
+  },
+  "keywords": [
+    "express",
+    "passport"
+  ],
+  "author": "@alvarolg810",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "8.2.0",
+    "nodemon": "2.0.4",
+    "prettier": "2.0.5"
+  },
+  "dependencies": {
+    "cors": "2.8.5",
+    "express": "4.17.1",
+    "express-validator": "6.6.0",
+    "helmet": "3.23.3",
+    "jsonwebtoken": "8.5.1",
+    "mongoose": "5.9.23",
+    "morgan": "1.10.0",
+    "passport": "0.4.1",
+    "passport-http": "0.3.0",
+    "passport-jwt": "4.0.0"
+  }
+}
