@@ -81,4 +81,58 @@ router.post('/signin', (req, res) => {
   })(req, res);
 });
 
+// Facebook Auth
+// Facebook Strategy
+require('../utils/auth/strategies/facebook');
+router.get(
+  '/auth/facebook',
+  passport.authenticate('facebook', { scope: ['email'] })
+);
+
+router.get(
+  '/auth/facebook/callback',
+  (req, res) => {
+    passport.authenticate('facebook', (err, user) => {
+      if (err || !user) {
+        return res.status(400).json({
+          error: err.error
+        });
+      }
+      const { ...data } = user;
+      req.login(user, { session: false }, (err) => {
+        if (err) {
+          return res.status(400).json({
+            error: err.error
+          });
+        }
+        res.cookie('token', data.token, {
+          httpOnly: config.env !== 'development',
+          secure: config.env !== 'development'
+        });
+        return res.status(200).json({
+          token: data.token,
+          user: data.user
+        });
+      });
+    })(req, res);
+  }
+
+  // passport.authenticate('facebook', { session: false }),
+  // (req, res) => {
+  //   if (!req.user || err) {
+  //     return res.status(400).json({
+  //       error: err.error
+  //     });
+  //   }
+  //   console.log(req.user);
+  //   // const { token, ...user } = req.user;
+  //   //
+  //   // res.cookie('token', token, {
+  //   //   httpOnly: !config.dev,
+  //   //   secure: !config.dev
+  //   // });
+  //   // res.status(200).json(token, user);
+  // }
+);
+
 module.exports = router;
