@@ -22,7 +22,9 @@ passport.use(
           return done({ error: 'Error verifying facebook token' });
         }
         try {
-          let user = await User.findOne({ email });
+          let user = await User.findOne({ email }).select(
+            '-hashedPassword -salt -__v'
+          );
           if (user) {
             user = user.toObject();
             const { _id, email, name } = user;
@@ -33,7 +35,6 @@ passport.use(
             };
             user.id = user._id;
             delete user._id;
-            delete user.hashedPassword;
             const token = jwt.sign(payload, config.jwtSecret, {
               expiresIn: '7d'
             });
@@ -57,6 +58,8 @@ passport.use(
               user.id = user._id;
               delete user._id;
               delete user.hashedPassword;
+              delete user.salt;
+              delete user.__v;
               const token = jwt.sign(payload, config.jwtSecret, {
                 expiresIn: '7d'
               });
