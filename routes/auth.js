@@ -7,10 +7,7 @@ const config = require('../config/env'); // env variables
 
 // Validators
 const { runValidation } = require('../utils/middleware/validators');
-const {
-  userSignInValidator,
-  userSignUpValidator
-} = require('../utils/middleware/validators/auth');
+const { userSignUpValidator } = require('../utils/middleware/validators/auth');
 
 // Sign up route
 router.post('/signup', userSignUpValidator, runValidation, async (req, res) => {
