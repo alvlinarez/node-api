@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 
 // environment variables
 const config = require('./config/env');
@@ -9,7 +10,6 @@ const config = require('./config/env');
 const connectionDB = require('./config/db');
 // routes
 const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/user');
 
 // Custom middleware
 const notFoundHandler = require('./utils/middleware/notFoundHandler');
@@ -23,10 +23,10 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
+app.use(cookieParser());
 
 // routes
-app.use('/api', authRoutes);
-app.use('/api', userRoutes);
+app.use('/api/auth', authRoutes);
 
 // 404 middleware
 app.use(notFoundHandler);
